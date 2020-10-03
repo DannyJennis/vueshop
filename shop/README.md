@@ -1,4 +1,4 @@
-# lk_pdd
+# vueShop
 
 > A Vue.js project
 
