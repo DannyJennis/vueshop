@@ -15,10 +15,7 @@
           <i class="itlike-1"></i>
           <span>待付款</span>
         </div>
-        <!-- <div class="bottom-item">
-          <i class="itlike-2"></i>
-          <span>待分享</span>
-        </div> -->
+
         <div class="bottom-item">
           <i class="itlike-3"></i>
           <span>待发货</span>
@@ -34,32 +31,10 @@
       </div>
     </div>
     <div class="setting">
-      <!-- <div class="setting-item">
-        <i class="itlike-1"></i>
-        <span>新人红包</span>
-      </div>
-      <div class="setting-item">
-        <i class="itlike-2"></i>
-        <span>多多果园</span>
-      </div>
-      <div class="setting-item">
-        <i class="itlike-3"></i>
-        <span>砍价免费拿</span>
-      </div>
-      <div class="setting-item">
-        <i class="itlike-4"></i>
-        <span>边逛边赚</span>
-      </div>
-      <div class="setting-item">
-        <i class="itlike-5"></i>
-        <span>天天领红包</span>
-      </div> -->
-      <router-link tag="div" class="setting-item" to="/addressEdit"><i class="itlike-uniE902"></i>
-        <span>收货地址</span></router-link>
-      <!-- <div class="setting-item">
-        <i class="itlike-uniE902"></i>
-        <span>收货地址</span>
-      </div> -->
+      <router-link tag="div" class="setting-item" to="/address"
+        ><i class="itlike-uniE902"></i> <span>收货地址</span></router-link
+      >
+
       <div class="setting-item">
         <i class="itlike-1"></i>
         <span>我的评价</span>
@@ -72,7 +47,6 @@
         <i class="itlike-4"></i>
         <span>设置</span>
       </router-link>
-      
     </div>
   </div>
 </template>
@@ -86,13 +60,13 @@ export default {
   computed: {
     ...mapState(["userInfo"]),
   },
-  methods:{
-    talling(){
+  methods: {
+    talling() {
       const html = `<div style="text-align:left;font-size:20px">
           <h2>QQ:</h2><span style="color:blue">2233879049</span>
           
           <h2>微信：</h2><span style="color:blue">1777889832</span>
-        </div>`
+        </div>`;
       MessageBox.confirm("", {
         title: "请添加客服联系方式",
         message: html,
@@ -100,9 +74,8 @@ export default {
         cancelButtonText: false,
         showCancelButton: false,
       });
-    }
-  }
-
+    },
+  },
 };
 </script>
 

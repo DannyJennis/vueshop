@@ -7,6 +7,7 @@ import {
   getUserInfo,
   getLogout,
   getCartsGoods,
+  addCartGoods,
   delCartGoods
 } from '../api'
 
@@ -92,7 +93,7 @@ export default {
         commit(CART_GOODS_LIST, {cartgoods: result.message})
       }
     },
-    // 9. 请求购物车数据
+    // 9. 删除商品
     async delCartsGoods({commit}) {
       const result = await delCartGoods();
       if(result.success_code === 200){
@@ -101,13 +102,22 @@ export default {
     },
 
   // 9. 购物车单个商品的增加和减少
-  updateGoodsCount({commit}, {goods, isAdd}) {
-    if(isAdd){ // 增加
-        commit(ADD_GOODS_COUNT, {goods});
-    }else { // 减少
-       commit(REDUCE_GOODS_COUNT, {goods});
+  //  addCartGoods({commit}, {goods}) {
+  //     commit(ADD_GOODS_COUNT , {goods})
+  // },
+  async addGoodsCount({commit}) {
+    const result = await addGoodsCount();
+    if(result.success_code === 200){
+      commit(ADD_GOODS_COUNT, {cartgoods: result.message})
     }
-},
+  },
+//   updateGoodsCount({commit}, {goods, isAdd}) {
+//     if(isAdd){ // 增加
+//         commit(ADD_GOODS_COUNT, {goods});
+//     }else { // 减少
+//        commit(REDUCE_GOODS_COUNT, {goods});
+//     }
+// },
 
 // 10. 单个商品的选中和取消
 singerGoodsSelected({commit}, {goods}){

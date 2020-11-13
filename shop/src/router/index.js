@@ -12,17 +12,11 @@ import Login from './../pages/Login/Login'
 
 // 引入二级的路由版块
 import Hot from '../pages/Home/Children/Hot/Hot'
-import Box from './../pages/Home/Children/Box'
-import Dress from './../pages/Home/Children/Dress'
-import Ele from './../pages/Home/Children/Ele'
-import Food from './../pages/Home/Children/Food'
-import General from './../pages/Home/Children/General'
-import Man from './../pages/Home/Children/Man'
-import Mbaby from './../pages/Home/Children/Mbaby'
-import Shirt from './../pages/Home/Children/Shirt'
+
 import MeSetting from './../pages/Me/MeSetting.vue'
 
-import AddressEdit from './../pages/Me/AddressEdit.vue'
+import Address from './../pages/Me/Address.vue'
+
 import Detail from './../pages/Me/MeDetail.vue'
 
 // const Hot = ()=> import('./../pages/Home/Children/Hot/Hot');
@@ -33,35 +27,69 @@ Vue.use(VueRouter);
 // 3. 输入路由对象
 export default new VueRouter({
   // 3.1 配置一级路由
-  routes: [
-    {
+  routes: [{
       path: '/home',
       component: Home,
-      children: [
-        {path: 'hot', component: Hot, meta: {showBottomTabBar: true}},
-        {path: 'box', component: Box, meta: {showBottomTabBar: true}},
-        {path: 'dress', component: Dress, meta: {showBottomTabBar: true}},
-        {path: 'ele', component: Ele},
-        {path: 'food', component: Food},
-        {path: 'general', component: General},
-        {path: 'man', component: Man},
-        {path: 'mbaby', component: Mbaby},
-        {path: 'shirt', component: Shirt},
-        {path: '/home', redirect: '/home/hot'}
+      children: [{
+          path: 'hot',
+          component: Hot,
+          meta: {
+            showBottomTabBar: true
+          }
+        },
+        {
+          path: '/home',
+          redirect: '/home/hot'
+        }
       ]
     },
     {
       path: '/recommend',
       component: Recommend,
-      meta: {showBottomTabBar: true}
+      meta: {
+        showBottomTabBar: true
+      }
     },
-    {path: '/cart', component: Cart, meta: {showBottomTabBar: true}},
-    {path: '/search', component: Search, meta: {showBottomTabBar: true}},
-    {path: '/me', component: Me, meta: {showBottomTabBar: true}},
-    {path: '/login', component: Login},
-    {path: '/setting', component: MeSetting},
-    {path: '/addressEdit', component: AddressEdit},
-    {path: '/detail', component: Detail},
-    {path: '/', redirect: '/home'}
+    {
+      path: '/cart',
+      component: Cart,
+      meta: {
+        showBottomTabBar: true
+      }
+    },
+    {
+      path: '/search',
+      component: Search,
+      meta: {
+        showBottomTabBar: true
+      }
+    },
+    {
+      path: '/me',
+      component: Me,
+      meta: {
+        showBottomTabBar: true
+      }
+    },
+    {
+      path: '/login',
+      component: Login
+    },
+    {
+      path: '/setting',
+      component: MeSetting
+    },
+    {
+      path: '/address',
+      component: Address
+    },
+    {
+      path: '/detail',
+      component: Detail
+    },
+    {
+      path: '/',
+      redirect: '/home'
+    }
   ]
 });

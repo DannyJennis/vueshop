@@ -4,7 +4,7 @@
     <h4 class="item-title">{{item.short_name}}</h4>
     <div class="item-bottom">
       <span class="item-price">¥{{item.price / 100}}</span>
-      <span class="item-sales">{{item.sales_tip}}</span>
+      <!-- <span class="item-sales">{{item.sales_tip}}</span> -->
       <button class="item-btn" @click="clickCellBtn(item)">加入购物车</button>
     </div>
   </a>
@@ -59,7 +59,7 @@
         border 1px solid orangered
         height 26px
         border-radius 5px
-        font-size 10px
+        font-size 5px
         background-color transparent
         color red
 </style>

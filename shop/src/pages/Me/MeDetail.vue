@@ -18,16 +18,10 @@
         <span>性别</span>
         <span>{{ user_sex }}</span>
       </div>
-      <!-- <div class="user-item">
+      <div class="user-item">
         <span>所在地区</span>
-        <span><input type="text" v-model="user_address"></span>
-      </div> -->
-      <router-link tag="div" to="/addressEdit">
-        <div class="user-item">
-          <span>所在地区</span>
-          <span><input type="text" v-model="user_address" /></span>
-        </div>
-      </router-link>
+        <span><input type="text" v-model="user_address" /></span>
+      </div>
       <div class="user-item" @click="$refs.picker.open()">
         <span>生日</span>
         <span>{{ user_birthday }}</span>

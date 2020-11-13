@@ -93,7 +93,7 @@
       },
       // 结束触摸
       handleTouchEnd(){
-        console.log('结束触摸');
+        // console.log('结束触摸');
         this.endFlag = this.barMoveWidth;
       },
     }

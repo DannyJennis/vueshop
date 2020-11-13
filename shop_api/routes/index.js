@@ -3,6 +3,7 @@ const router = express.Router();
 const conn = require('./../db/db');
 const svgCaptcha = require('svg-captcha');
 const sms_util = require('./../util/sms_util');
+const { config } = require('./../db/db');
 // const md5 = require('blueimp-md5');
 
 let users = {}; // 用户信息
@@ -62,7 +63,6 @@ router.get('/api/homecasual', (req, res) => {
       const data = require('../data/homecasual');
       res.json({success_code: 200, message: data})
      */
-
     console.log(req.session.captcha);
 
     // 1.1 数据库查询的语句
@@ -485,11 +485,11 @@ router.post('/api/change_user_msg', (req, res) => {
  */
 router.post('/api/add_shop_cart', (req, res) => {
     // 1. 验证用户
-     let user_id = req.body.user_id;
-     if(!user_id || user_id !== req.session.userId){
-         res.json({err_code:0, message:'非法用户'});
-         return;
-     }
+    //  let user_id = req.body.user_id;
+    //  if(!user_id || user_id !== req.session.userId){
+    //      res.json({err_code:0, message:'非法用户'});
+    //      return;
+    //  }
 
     // 2. 获取客户端传过来的商品信息
     let goods_id = req.body.goods_id;
@@ -501,6 +501,7 @@ router.post('/api/add_shop_cart', (req, res) => {
 
     // 3. 查询数据
     let sql_str = "SELECT * FROM vueshop_cart WHERE goods_id = '" + goods_id + "' LIMIT 1";
+    console.log(sql_str);
     conn.query(sql_str, (error, results, fields) => {
         if (error) {
             res.json({err_code: 0, message: '服务器内部错误!'});
@@ -533,7 +534,6 @@ router.post('/api/add_shop_cart', (req, res) => {
     });
 
 });
-
 /**
  * 查询购物车的商品
  */
@@ -546,7 +546,6 @@ router.get('/api/cart_goods', (req, res) => {
         });
         return;
     }
-
     // 1.1 数据库查询的语句
     let sqlStr = "SELECT * FROM vueshop_cart";
     conn.query(sqlStr, (error, results, fields) => {
@@ -565,74 +564,69 @@ router.get('/api/cart_goods', (req, res) => {
     });
 });
 // 商品数量增加
-router.post('/api/add_cart_goods', (req, res) => {
-    // 1. 验证用户
-    let user_id = req.body.user_id;
-    // if (!user_id || user_id !== req.session.userId) {
-    //     res.json({
-    //         err_code: 0,
-    //         message: '非法用户'
-    //     });
-    //     return;
-    // }
-
+router.post('/api/add_goods_count', (req, res) => {
     // 2. 获取客户端传过来的商品信息
     let goods_id = req.body.goods_id;
-    // let goods_name = req.body.goods_name;
-    // let thumb_url = req.body.thumb_url;
-    // let price = req.body.price;
+    let goods_name = req.body.goods_name;
+    let thumb_url = req.body.thumb_url;
+    let price = req.body.price;
     let buy_count = 1;
-    // let is_pay = 0; // 0 未购买 1购买
+    let is_pay = 0; // 0 未购买 1购买
 
     // 3. 查询数据
     let sql_str = "SELECT * FROM vueshop_cart WHERE goods_id = '" + goods_id + "' LIMIT 1";
+    console.log(sql_str);
     conn.query(sql_str, (error, results, fields) => {
         if (error) {
-            res.json({
-                err_code: 0,
-                message: '服务器内部错误!'
-            });
+            res.json({err_code: 0, message: '服务器内部错误!'});
         } else {
             results = JSON.parse(JSON.stringify(results));
-            console.log(results);
+            // console.log(results);
             if (results[0]) { // 3.1 商品已经存在
                 console.log(results[0]);
                 let buy_count = results[0].buy_count + 1;
-                let sql_str = "UPDATE vueshop_cart SET buy_count = " + buy_count + 1 + " WHERE goods_id = '" + goods_id + "'";
+                let sql_str = "UPDATE vueshop_cart SET buy_count = " + buy_count + " WHERE goods_id = '" + goods_id + "'";
                 conn.query(sql_str, (error, results, fields) => {
                     if (error) {
-                        res.json({
-                            err_code: 0,
-                            message: '数量增加失败'
-                        });
+                       
                     } else {
-                        res.json({
-                            success_code: 200,
-                            message: '数量增加成功!'
-                        });
+                        res.json({success_code: 200, message: '加入购物车成功!'});
+                    }
+                });
+            } else { // 3.2 商品不存在
+                let add_sql = "INSERT INTO vueshop_cart(goods_id, goods_name, thumb_url, price, buy_count, is_pay) VALUES (?, ?, ?, ?, ?, ?)";
+                let sql_params = [goods_id, goods_name, thumb_url, price, buy_count, is_pay];
+                conn.query(add_sql, sql_params, (error, results, fields) => {
+                    if (error) {
+                        res.json({err_code: 0, message: '加入购物车失败!'});
+                    } else {
+                        res.json({success_code: 200, message: '加入购物车成功!'});
                     }
                 });
             }
-            
         }
     });
 
 });
+// router.post('/api/add_cart_goods', (req, res) => {
+//     let buy_count= req.body.buy_count;
+//     // 3. 查询数据
+//     let sql_str = "SELECT * FROM vueshop_cart WHERE goods_id = '" + goods_id + "' LIMIT 1";
+//     conn.query(sql_str, (error, results, fields) => {
+//         if (error) {
+//             res.json({
+
+//                         });
+//                     }
+//                 });
+//             }
+            
+//         })
+   
+// });
 // 删除商品数据
-router.post('/api/del_cart_goods', (req, res) => {
-    // 1. 验证用户
-    // let user_id = req.body.user_id;
-    // if (!user_id || user_id !== req.session.userId) {
-    //     res.json({
-    //         err_code: 0,
-    //         message: '非法用户'
-    //     });
-    //     return;
-    // }
-
-    let goods_id = req.body.goods_id;
-
-    // 3. 查询数据
+router.post('/api/del_cart_goods', (req, res) => { 
+    let goods_id= req.body.goods_id;
     let sql_str = "SELECT * FROM vueshop_cart WHERE goods_id = '" + goods_id + "' LIMIT 1";
     conn.query(sql_str, (error, results, fields) => {
         if (error) {
@@ -641,12 +635,7 @@ router.post('/api/del_cart_goods', (req, res) => {
                 message: '服务器内部错误!'
             });
         } else {
-            results = JSON.parse(JSON.stringify(results));
-            console.log(results);
-            if (results[0]) { // 3.1 商品已经存在
-                console.log(results[0]);
-                let buy_count = results[0].buy_count + 1;
-                let sql_str = "DELETE FROM vueshop_cart WHERE goods_id = '" + goods_id + "'";
+    let sql_str = "DELETE FROM vueshop_cart WHERE goods_id = '"+ goods_id +"'";
                 conn.query(sql_str, (error, results, fields) => {
                     if (error) {
                         res.json({
@@ -661,13 +650,8 @@ router.post('/api/del_cart_goods', (req, res) => {
                     }
                 });
             }
-            
-        }
-    });
+        })
 
 });
-
-
-
 
 module.exports = router;

@@ -1,10 +1,8 @@
 <template>
   <div class="home">
     <ly-tab
-      v-model="selectedId"
       :items="items"
       :options="options"
-      @change="handleChange"
       class="fix"
     />
     <router-view></router-view>
@@ -16,30 +14,16 @@
     name: "Home",
     data(){
       return {
-        selectedId: 0, // 选中的id
         items:[
-          {label: '热门'},
-          {label: '服饰'},
-          {label: '鞋包'},
-          {label: '母婴'},
-          {label: '百货'},
-          {label: '食品'},
-          {label: '内衣'},
-          {label: '男装'},
-          {label: '电器'}
+          {label: 'VUE购物商城首页'},
         ],
         options: {
           activeColor: '#e9232c', // 设置选中的颜色
         },
-        // 二级路由路径
-        subRouteUrl: ['/home/hot', '/home/dress', '/home/box', '/home/mbaby', '/home/general', '/home/food', '/home/shirt', '/home/man', '/home/ele']
       }
     },
     methods:{
-      handleChange(item, index){
-        // console.log(item, index);
-        this.$router.replace(this.subRouteUrl[index])
-      }
+
     }
   }
 </script>

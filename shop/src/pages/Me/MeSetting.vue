@@ -1,31 +1,27 @@
 <template>
   <div class="me-setting">
     <div>
-      <me-common-cell left-icon="itlike-2" left-title="免密码支付" />
+      <me-common-cell
+        left-icon="itlike-2"
+        left-title="免密码支付"
+        :clickCell="dealCellClick"
+        right-title="免密"
+        right-title-color="red"
+      />
       <me-common-cell
         left-icon="itlike-3"
-        left-title="免拼单设置"
+        left-title="商品降价通知"
         :clickCell="dealCellClick"
+        right-title="通知"
+        right-title-color="red"
       />
       <me-common-cell
         left-icon="itlike-1"
-        left-title="消息接收设置"
+        left-title="消息接收"
         right-title="接收"
         right-title-color="red"
-      />
-    </div>
-
-    <div style="margin-top: 10px">
-      <me-common-cell
-        left-icon="itlike-5"
-        left-title="免密码支付"
         :clickCell="dealCellClick"
       />
-      <me-common-cell left-icon="itlike-4" left-title="免密码支付" />
-    </div>
-
-    <div style="margin-top: 10px">
-      <me-common-cell left-icon="itlike-1" left-title="免密码支付" />
     </div>
 
     <div class="logout" @click="dealLogout">退出登录</div>
@@ -47,7 +43,7 @@ export default {
     ...mapActions(["logOut"]),
     dealCellClick(props) {
       Toast({
-        message: "点击了" + props,
+        message: props,
         duration: 5000,
         showCancelButton: true,
       });
@@ -77,9 +73,7 @@ export default {
 </script>
 
 <style scoped lang="stylus" ref="stylesheet/stylus">
-
-
-.login-back,.logout {
+.login-back, .logout {
   display: block;
   width: 100%;
   height: 44px;
@@ -87,7 +81,7 @@ export default {
   border-radius: 4px;
   background-color: #fff;
   display: flex;
-   justify-content: center;
+  justify-content: center;
   align-items: center;
   text-align: center;
   background: transparent;

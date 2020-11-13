@@ -22,13 +22,22 @@ export const getRecommendShopList = (params) => ajax(BASE_URL + '/api/recommends
 export const getSearchGoods = () => ajax(BASE_URL + '/api/searchgoods');
 
 // 2.6 请求短信验证码
-export const getPhoneCode = (phone) => ajax(BASE_URL + '/api/send_code', {phone});
+export const getPhoneCode = (phone) => ajax(BASE_URL + '/api/send_code', {
+  phone
+});
 
 // 2.7 手机验证码登录
-export const phoneCodeLogin = (phone, code) => ajax(BASE_URL + '/api/login_code', {phone, code}, 'POST');
+export const phoneCodeLogin = (phone, code) => ajax(BASE_URL + '/api/login_code', {
+  phone,
+  code
+}, 'POST');
 
 // 2.8 用户名和密码登录
-export const pwdLogin = (name, pwd, captcha) => ajax(BASE_URL + '/api/login_pwd', {name, pwd, captcha}, 'POST');
+export const pwdLogin = (name, pwd, captcha) => ajax(BASE_URL + '/api/login_pwd', {
+  name,
+  pwd,
+  captcha
+}, 'POST');
 
 // 2.9 获取登录的用户信息
 export const getUserInfo = () => ajax(BASE_URL + '/api/user_info');
@@ -47,11 +56,26 @@ export const changeUserInfo = (user_id, user_name, user_sex, user_address, user_
 }, 'POST');
 
 // 2.12 加入购物车
-export const addGoodsToCart = (user_id, goods_id, goods_name, thumb_url, price) => ajax(BASE_URL + '/api/add_shop_cart', {user_id, goods_id, goods_name, thumb_url, price}, 'POST');
+export const addGoodsToCart = (user_id, goods_id, goods_name, thumb_url, price) => ajax(BASE_URL + '/api/add_shop_cart', {
+  user_id,
+  goods_id,
+  goods_name,
+  thumb_url,
+  price
+}, 'POST');
 
 // 2.13 请求购物车的数据
 export const getCartsGoods = () => ajax(BASE_URL + '/api/cart_goods');
-// 修改商品数量
-export const addCartGoods = () => ajax(BASE_URL + '/api/add_cart_goods');
+// 增加商品数量
+// export const addCartGoods = (goods_id) => ajax(BASE_URL + '/api/add_cart_goods',{goods_id},'POST');
+export const addGoodsCount = (user_id, goods_id, goods_name, thumb_url, price) => ajax(BASE_URL + '/api/add_goods_count', {
+  user_id,
+  goods_id,
+  goods_name,
+  thumb_url,
+  price
+}, 'POST');
 // 删除商品数据
-export const delCartGoods = ( goods_id) => ajax(BASE_URL + '/api/del_cart_goods', {goods_id},'POST');
+export const delCartGoods = (goods_id) => ajax(BASE_URL + '/api/del_cart_goods', {
+  goods_id
+}, 'POST');

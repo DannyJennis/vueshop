@@ -38,14 +38,14 @@
                 </p>
                 <div class="shop_deal">
                   <div class="shop_deal_left">
-                    <span @click.stop="updateGoodsCount(goods, false)">-</span>
+                    <span @click.stop="updateGoodsCount(goods)">-</span>
                     <input
                       disabled="disabled"
                       type="tel"
                       value="1"
                       v-model="goods.buy_count"
                     />
-                    <span @click.stop="updateGoodsCount(goods, true)">+</span>
+                    <span @click.stop="addCartCount(goods)">+</span>
                   </div>
                   <div class="shop_deal_right" @click.stop="clickTrash(goods)">
                     <span></span>
@@ -86,7 +86,9 @@
 import { mapState } from "vuex";
 import SelectLogin from "./../Login/SelectLogin.vue";
 import { MessageBox } from "mint-ui";
-
+import { delCartGoods } from "./../../api/index";
+import {addGoodsToCart} from './../../api/index';
+import {addCartCount} from './../../api/index';
 export default {
   name: "Cart",
   data() {
@@ -101,7 +103,7 @@ export default {
     ...mapState(["userInfo", "cartgoods"]),
   },
   mounted() {
-    this.$store.dispatch("reqCartsGoods","delCartsGoods");
+    this.$store.dispatch("reqCartsGoods", "delCartsGoods");
   },
   methods: {
     // 1. 单个商品的增加和减少
@@ -141,6 +143,15 @@ export default {
       // 4.2 赋值
       this.isSelectedAll = flag;
     },
+
+    async addCartCount(goods){
+         // 1. 发送请求
+        // user_id, goods_id, goods_name, thumb_url, price
+         let result = await addCartCount(this.userInfo.id, goods.goods_id, goods.goods_name, goods.thumb_url, goods.price);
+         console.log(result);
+      },
+
+
     // 5. 计算商品的总价格
     getAllGoodsPrice() {
       let totalPrice = 0;
@@ -154,20 +165,23 @@ export default {
       this.totalPrice = totalPrice;
     },
     // 6. 点击垃圾篓
-    clickTrash(goods) {
-      MessageBox.confirm("您确定删除该商品吗?").then((action) => {
+    // 监听商品点击
+    async clickTrash(goods) {
+      // 1. 发送请求
+      // user_id, goods_id, goods_name, thumb_url, price
+      await MessageBox.confirm("您确定删除该商品吗？").then((action) => {
         if (action === "confirm") {
+          let result = delCartGoods(goods.goods_id);
+          console.log("删除商品成功");
           this.currentDelGoods = goods;
-          this.$store.dispatch("delCartsGoods", {goods});
+          this.$store.dispatch("delCartsGoods", { goods });
           this.isSelectedAll = false;
-          // if (this.cartgoods.length === 0) {
-          //   this.isSelectedAll = false;
-          // }
           // 计算商品的总价格
           this.getAllGoodsPrice();
         }
       });
     },
+
   },
   filters: {
     moneyFormat(money) {

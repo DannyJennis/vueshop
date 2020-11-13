@@ -65,15 +65,10 @@
         // 1.2 监听列表的滚动
         this.listScroll.on('touchEnd', (pos) => {
           // 1.2.1 监听下拉
-          /* console.log(pos.y);
-           console.log(this.listScroll.maxScrollY);*/
           if (pos.y >= 50) {
-            // console.log('下拉刷新');
           }
           // 1.2.2 监听上拉
           if (this.listScroll.maxScrollY > pos.y + 20) {
-            // console.log(this.page);
-            // console.log('上拉加载更多');
             Indicator.open('正在加载数据...');
             this.$store.dispatch('reqRecommendShopList', {page: this.page, count: this.count, callback: ()=>{
                 Indicator.close();
